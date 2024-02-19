@@ -9,15 +9,6 @@ from sqlalchemy.sql import func
 from .models import Messages
 
 
-async def max_counter_lock(session, message):
-    subquery = select(func.max(Messages.counter)).where(Messages.name == message.name).scalar_subquery()
-    query = select(Messages).where(Messages.counter == subquery, Messages.name == message.name)
-    rs = await session.execute(query)
-    message_with_max_counter: Messages = rs.scalar()
-    if message_with_max_counter is not None:
-        await session.execute(text(f'SELECT pg_advisory_xact_lock({message_with_max_counter.id})'))
-
-
 async def add_message(session: AsyncSession, message):
     async with session.begin() as conn:
 
