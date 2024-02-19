@@ -21,12 +21,11 @@ def create_data():
 
 async def send_message():
     async with aiohttp.ClientSession() as session:
-        for _ in range(100):
+        for _ in range(50):
             url = random.choice(URLS)
             data = create_data()
             async with session.post(url, json=data) as response:
                 response_data = await response.json()
-                # print(response_data) 
 
 
 async def main():
