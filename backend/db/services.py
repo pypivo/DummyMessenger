@@ -1,4 +1,5 @@
 import datetime
+from hashlib import md5
 
 from sqlalchemy import desc, text
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,9 +21,10 @@ async def max_counter_lock(session, message):
 async def add_message(session: AsyncSession, message):
     async with session.begin() as conn:
 
-        await max_counter_lock(session=conn.session, message=message)
-        query = select(func.max(Messages.counter)).where(Messages.name == message.name)
-        rs = await conn.session.execute(query)
+        await session.execute(text(f"SELECT pg_advisory_xact_lock(('x'||md5('{message.name}'))::bit(64)::bigint);"))
+
+        statement = select(func.max(Messages.counter)).where(Messages.name == message.name)
+        rs = await conn.session.execute(statement)
         max_counter = rs.scalar()
         if max_counter is None:
             max_counter = 0

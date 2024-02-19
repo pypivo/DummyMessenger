@@ -2,9 +2,9 @@ import random
 import asyncio
 import aiohttp
 
-URLS = ['http://localhost:8080/messages']#, 'http://localhost:8081/messages']
+URLS = ['http://localhost:8080/messages', 'http://localhost:8081/messages']
 
-NAMES = ["Benjamin", "Olivia", "Ethan", "Charlotte", "Liam", "Sophia", "William", "Ava", "James", "Emma"]
+NAMES = ["Ava", "Benjamin", "Olivia", "Ethan", "Charlotte", "Liam", "Sophia", "William", "James", "Emma"]
 
 TEXT_LIMIT = 1000
 FILE_WITH_TEXT = "Hamlet.txt"

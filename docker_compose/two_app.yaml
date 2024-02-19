@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  app_1:
+    container_name: app_1
+    build: ../backend
+    command: python3 ./__main__.py
+    environment:
+      server_host: "0.0.0.0" 
+      server_port: 8080
+    volumes:
+      - ..:/code
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+  app_2:
+    container_name: app_2
+    build: ../backend
+    command: python3 ./__main__.py
+    environment:
+      server_host: "0.0.0.0" 
+      server_port: 8080
+    volumes:
+      - ..:/code
+    ports:
+      - "8081:8080"
+    networks:
+      - backend
+      
+  postgres:
+    container_name: postgres
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5433:5432"
+    restart: always
+    networks:
+      - backend
+
+volumes:
+    postgres:
+
+networks:
+  backend:
+    driver: bridge

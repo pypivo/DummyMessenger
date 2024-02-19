@@ -7,8 +7,10 @@ class Settings(BaseSettings):
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB_NAME: str = "postgres"
-    POSTGRES_PORT: int = 5433
-    DATABASE_URL: str = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{server_host}:{POSTGRES_PORT}/{POSTGRES_DB_NAME}"
+    POSTGRES_PORT: int = 5432
+    DATABASE_URL: str = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_DB_NAME}:{POSTGRES_PORT}/{POSTGRES_DB_NAME}"
+    # DATABASE_URL: str = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{server_host}:{POSTGRES_PORT}/{POSTGRES_DB_NAME}"
+
 
 settings = Settings(
     _env_file='.env',
